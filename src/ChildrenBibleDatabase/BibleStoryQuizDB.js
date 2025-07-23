@@ -1,0 +1,201 @@
+export const StoryQuizDB = [
+  {
+    quizId: "quiz_david_01",
+    question: "What did David use to defeat Goliath?",
+    options: ["A sword", "A bow and arrow", "A sling and stone", "His hands"],
+    answer: "A sling and stone",
+  },
+  {
+    quizId: "quiz_david_02",
+    question: "Why was David not afraid of Goliath?",
+    options: [
+      "He had armor",
+      "He was taller",
+      "He trusted God",
+      "He had many soldiers",
+    ],
+    answer: "He trusted God",
+  },
+  {
+    quizId: "quiz_david_03",
+    question: "Who was Goliath fighting against?",
+    options: [
+      "The Egyptians",
+      "The Philistines",
+      "The Israelites",
+      "The Romans",
+    ],
+    answer: "The Israelites",
+  },
+
+  {
+    quizId: "quiz_noah_01",
+    question: "Why did God tell Noah to build an ark?",
+    options: [
+      "To go fishing",
+      "To have a big house",
+      "To escape a flood",
+      "To store food",
+    ],
+    answer: "To escape a flood",
+  },
+  {
+    quizId: "quiz_noah_02",
+    question: "What did God place in the sky after the flood?",
+    options: ["A star", "A rainbow", "A cloud", "A bird"],
+    answer: "A rainbow",
+  },
+
+  {
+    quizId: "quiz_daniel_01",
+    question: "Why was Daniel thrown into the lions’ den?",
+    options: [
+      "He broke a window",
+      "He stole food",
+      "He prayed to God",
+      "He ran away",
+    ],
+    answer: "He prayed to God",
+  },
+  {
+    quizId: "quiz_daniel_02",
+    question: "How was Daniel saved?",
+    options: [
+      "He climbed out",
+      "The king changed his mind",
+      "An angel shut the lions’ mouths",
+      "The lions were not hungry",
+    ],
+    answer: "An angel shut the lions’ mouths",
+  },
+  {
+    quizId: "quiz_storm_01",
+    question: "What was Jesus doing during the storm?",
+    options: ["Walking on water", "Praying", "Sleeping", "Preaching"],
+    answer: "Sleeping",
+  },
+  {
+    quizId: "quiz_storm_02",
+    question: "What happened when Jesus said 'Peace, be still'?",
+    options: [
+      "It rained harder",
+      "The sea became calm",
+      "A rainbow appeared",
+      "The boat sank",
+    ],
+    answer: "The sea became calm",
+  },
+  {
+    quizId: "quiz_jonah_01",
+    question: "Why did Jonah run away?",
+    options: [
+      "He wanted to go fishing",
+      "He didn’t want to preach to Nineveh",
+      "He lost his map",
+      "He was tired",
+    ],
+    answer: "He didn’t want to preach to Nineveh",
+  },
+  {
+    quizId: "quiz_jonah_02",
+    question: "What swallowed Jonah?",
+    options: ["A shark", "A whale", "A big fish", "A sea monster"],
+    answer: "A big fish",
+  },
+  {
+    quizId: "quiz_jonah_03",
+    question: "How many days was Jonah in the fish?",
+    options: ["1", "2", "3", "7"],
+    answer: "3",
+  },
+  {
+    quizId: "quiz_creation_01",
+    question: "What did God create on the first day?",
+    options: ["Animals", "Water", "Light", "Trees"],
+    answer: "Light",
+  },
+  {
+    quizId: "quiz_creation_02",
+    question: "What did God do on the seventh day?",
+    options: ["Created stars", "Rested", "Built a boat", "Made fish"],
+    answer: "Rested",
+  },
+  {
+    quizId: "quiz_moses_01",
+    question: "What did God tell Moses to do at the Red Sea?",
+    options: [
+      "Swim across",
+      "Build a bridge",
+      "Raise his staff",
+      "Throw a stone",
+    ],
+    answer: "Raise his staff",
+  },
+  {
+    quizId: "quiz_moses_02",
+    question: "What happened when Moses obeyed?",
+    options: [
+      "The sea dried up",
+      "It rained",
+      "The sea turned red",
+      "The sea parted",
+    ],
+    answer: "The sea parted",
+  },
+  {
+    quizId: "quiz_5000_01",
+    question: "How many loaves and fish did the boy have?",
+    options: [
+      "Two loaves and five fish",
+      "Five loaves and two fish",
+      "Ten loaves",
+      "Seven loaves and seven fish",
+    ],
+    answer: "Five loaves and two fish",
+  },
+  {
+    quizId: "quiz_5000_02",
+    question: "What happened after Jesus gave thanks for the food?",
+    options: [
+      "Everyone got a little",
+      "Only the boy ate",
+      "There was more than enough",
+      "The food disappeared",
+    ],
+    answer: "There was more than enough",
+  },
+  {
+    quizId: "quiz_samaritan_01",
+    question: "Who helped the hurt man?",
+    options: ["A priest", "A Samaritan", "A guard", "A king"],
+    answer: "A Samaritan",
+  },
+  {
+    quizId: "quiz_samaritan_02",
+    question: "What did the Samaritan do for the man?",
+    options: [
+      "Ignored him",
+      "Laughed at him",
+      "Helped and cared for him",
+      "Told others to help",
+    ],
+    answer: "Helped and cared for him",
+  },
+  {
+    quizId: "quiz_sheep_01",
+    question: "How many sheep did the shepherd have?",
+    options: ["10", "50", "100", "12"],
+    answer: "100",
+  },
+  {
+    quizId: "quiz_sheep_02",
+    question: "What did the shepherd do when one sheep was lost?",
+    options: [
+      "Forgot about it",
+      "Let it go",
+      "Looked for it",
+      "Sold the others",
+    ],
+    answer: "Looked for it",
+  },
+];

@@ -1,0 +1,111 @@
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  useColorScheme,
+  Dimensions,
+  Platform,
+  TouchableOpacity,
+} from "react-native";
+import { ApostlesDB } from "../ChildrenBibleDatabase/12ApostlesDB";
+import BackgroundCard from "../component/BackgroundCards";
+import { imageStore } from "../imageStore/allImages";
+
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
+
+export default function ApostlesScreen() {
+  const colorScheme = useColorScheme();
+  const isDarkMode = colorScheme === "dark";
+  const styles = getStyles(isDarkMode);
+
+  const renderItem = ({ item }) => (
+    <View style={styles.card}>
+      <Image source={item.image} style={styles.image} />
+      <Text style={styles.name}>{item.name}</Text>
+      <Text style={styles.description}>{item.description}</Text>
+      {/* <Text style={styles.symbol}>Symbol: {item.symbol}</Text> */}
+    </View>
+  );
+
+  return (
+    <View style={styles.container}>
+      <Image source={imageStore.ApostleHeaderImage} style={styles.IMG} />
+      <Text style={styles.title}>The Twelve Apostles</Text>
+      <FlatList
+        data={ApostlesDB}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.list}
+      />
+    </View>
+  );
+}
+
+const getStyles = (isDarkMode) => {
+  const textColor = isDarkMode ? "#ffffff" : "#333";
+  const bgColor = isDarkMode ? "#121212" : "#FFF8F0";
+  const cardBg = isDarkMode ? "#1e1e1e" : "#ffffff";
+  const fontSize = Platform.OS === "ios" ? 16 : 15;
+
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: bgColor,
+      paddingTop: 16,
+      paddingHorizontal: 2,
+    },
+    IMG: {
+      width: "100%",
+      height: SCREEN_WIDTH * 0.5,
+      marginBottom: 16,
+      marginTop: 20,
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: "bold",
+      marginBottom: 16,
+      color: textColor,
+      textAlign: "center",
+    },
+    list: {
+      paddingBottom: 32,
+    },
+    card: {
+      backgroundColor: cardBg,
+      borderRadius: 12,
+      padding: 10,
+      marginBottom: 16,
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 3,
+    },
+    image: {
+      width: "100%",
+      height: SCREEN_WIDTH * 0.7,
+      borderRadius: 12,
+      marginBottom: 10,
+      // resizeMode: "cover",
+    },
+    name: {
+      fontSize: fontSize + 2,
+      fontWeight: "bold",
+      color: textColor,
+    },
+    description: {
+      fontSize: fontSize,
+      textAlign: "center",
+      color: textColor,
+      marginVertical: 6,
+    },
+    symbol: {
+      fontSize: fontSize - 1,
+      fontStyle: "italic",
+      color: isDarkMode ? "#aaa" : "#555",
+    },
+  });
+};
