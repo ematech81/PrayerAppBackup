@@ -16,8 +16,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import DummyPrayer from "../constant/DummyPrayer";
+import { imageStore } from "../imageStore/allImages";
+import BackgroundCard from "../component/BackgroundCards";
+import BackButton from "../component/backButton";
 
-const AffirmationScreen = () => {
+const ffirmationScreen = () => {
   const categories = [...new Set(DummyPrayer.map((item) => item.category))];
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -38,13 +41,13 @@ const AffirmationScreen = () => {
     });
   }, []);
 
-  const handleFavorite = async (topicId) => {
-    const updated = favorites.includes(topicId)
-      ? favorites.filter((id) => id !== topicId)
-      : [...favorites, topicId];
-    setFavorites(updated);
-    await AsyncStorage.setItem("favorites", JSON.stringify(updated));
-  };
+  // const handleFavorite = async (topicId) => {
+  //   const updated = favorites.includes(topicId)
+  //     ? favorites.filter((id) => id !== topicId)
+  //     : [...favorites, topicId];
+  //   setFavorites(updated);
+  //   await AsyncStorage.setItem("favorites", JSON.stringify(updated));
+  // };
 
   const renderCategoryItem = (category) => (
     <TouchableOpacity
@@ -85,16 +88,17 @@ const AffirmationScreen = () => {
   };
 
   const topicColors = [
-    "#4527a0",
-    "#03c988",
-    "#3dc1ee",
-    "#ee6a3d",
     "#1e2572",
     "#321033",
     "#004d40",
     "#5d1049",
     "#3e2723",
     "#1565c0",
+    "#4527a0",
+    "#004d40",
+    "#03c988",
+    "#3dc1ee",
+    // "#ee6a3d",
   ];
 
   const navigation = useNavigation();
@@ -102,49 +106,53 @@ const AffirmationScreen = () => {
   return (
     <View style={[styles.container, isDark && { backgroundColor: "#000" }]}>
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-      <TouchableOpacity
-        style={styles.arrowBack}
-        onPress={() => navigation.goBack()}
-      >
-        <AntDesign name="arrowleft" size={30} color="#ff008c" />
-      </TouchableOpacity>
-      <Text style={styles.introText}>Start your day with refreshing words</Text>
-      <Text style={[styles.title, isDark && { color: "#fff" }]}>
-        Affirmations
-      </Text>
-
-      <TextInput
-        placeholder="Search topic..."
-        placeholderTextColor={isDark ? "#888" : "#666"}
-        style={[
-          styles.searchBar,
-          isDark && { backgroundColor: "#f3f3f3", color: "#f3f3f3" },
-        ]}
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-      />
-      <View style={styles.categSubHeading}>
-        <Text style={styles.categSubHeadingText}>Select Category</Text>
-      </View>
-
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.categoryList}
-      >
-        {categories.map(renderCategoryItem)}
-      </ScrollView>
-      <Text style={{ paddingLeft: 10, marginBottom: 10, fontWeight: 600 }}>
-        Search By Topics
-      </Text>
+      <BackgroundCard source={imageStore.AffirmationHeaderImage}>
+        <BackButton />
+      </BackgroundCard>
       <FlatList
         data={topics}
         keyExtractor={(item) => item._id}
         renderItem={renderTopicItem}
-        contentContainerStyle={styles.topicList}
-        numColumns={2} // TWO ITEMS PER ROW
+        numColumns={2}
         columnWrapperStyle={{ justifyContent: "space-between" }}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.topicList}
+        ListHeaderComponent={
+          <>
+            <Text style={[styles.title, isDark && { color: "#fff" }]}>
+              Declear Life-Changing Truth Over Your Life Tailored By Topic
+            </Text>
+
+            <TextInput
+              placeholder="Search topic..."
+              placeholderTextColor={isDark ? "#888" : "#666"}
+              style={[
+                styles.searchBar,
+                isDark && { backgroundColor: "#f3f3f3", color: "#f3f3f3" },
+              ]}
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
+
+            <View style={styles.categSubHeading}>
+              <Text style={styles.categSubHeadingText}>Select Category</Text>
+            </View>
+
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.categoryList}
+            >
+              {categories.map(renderCategoryItem)}
+            </ScrollView>
+
+            <Text
+              style={{ paddingLeft: 10, marginBottom: 10, fontWeight: 600 }}
+            >
+              Search By Topics
+            </Text>
+          </>
+        }
       />
     </View>
   );
@@ -153,29 +161,15 @@ const AffirmationScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 16,
-    paddingTop: 50,
-    backgroundColor: "#ffffff",
-    // backgroundColor: "#071738",
-    paddingBottom: 50,
   },
-  arrowBack: {
-    marginBottom: 16,
-  },
-  introText: {
-    fontSize: 20,
-    color: "#333",
-    marginVertical: 15,
-    fontWeight: "500",
-    textAlign: "center",
-    lineHeight: 30,
-  },
+
   title: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 12,
     color: "#000000",
     fontWeight: "bold",
+    marginTop: 10,
   },
   searchBar: {
     borderWidth: 1,
@@ -231,7 +225,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   topicList: {
-    paddingBottom: 16,
+    paddingBottom: 80,
+    paddingHorizontal: 10,
   },
 
   topicText: {
@@ -240,42 +235,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
   },
-  goButton: {
-    backgroundColor: "#ff008c",
-    paddingVertical: 6,
-    paddingHorizontal: 14,
-    borderRadius: 8,
-    marginLeft: 10,
-    width: 80,
-    alignItems: "center",
-  },
-  goButtonText: {
-    color: "#ccc",
-    fontWeight: "bold",
-  },
-  favoriteBtn: {
-    marginLeft: 8,
-    padding: 6,
-  },
 
-  closeButton: {
-    alignSelf: "flex-end",
-    backgroundColor: "#4A90E2",
-    padding: 10,
-    borderRadius: 8,
-  },
-  row: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
-  box: {
-    width: "48%",
-    backgroundColor: "#1e2572",
-    marginBottom: 10,
-    padding: 10,
-    borderRadius: 10,
-  },
   topicItem: {
     flex: 1,
     margin: 5,
@@ -289,4 +249,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AffirmationScreen;
+export default ffirmationScreen;

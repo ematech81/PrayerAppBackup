@@ -12,6 +12,9 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { BibleStoriesDB } from "../ChildrenBibleDatabase/bibleSToriesData";
+import BackButton from "../component/backButton";
+import BackgroundCard from "../component/BackgroundCards";
+import { imageStore } from "../imageStore/allImages";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -24,6 +27,9 @@ export default function KidBibleStoriesScreen() {
 
   return (
     <ScrollView style={styles.container}>
+     
+        <BackButton />
+     
       <Text style={styles.title}>Bible Stories</Text>
 
       {BibleStoriesDB.map((story) => (
@@ -59,7 +65,7 @@ const getStyles = (isDarkMode) => {
     title: {
       fontSize: 24,
       fontWeight: "bold",
-      marginBottom: 16,
+      marginVertical: 16,
       color: textColor,
     },
     card: {

@@ -17,22 +17,29 @@ import { imageStore } from "../imageStore/allImages";
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 export default function ApostlesScreen() {
+  const [modalVissible, setModalVisible] = React.useState(false);
+  // const [selectedApostle, setSelectedApostle] = useState(null);
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === "dark";
   const styles = getStyles(isDarkMode);
 
   const renderItem = ({ item }) => (
-    <View style={styles.card}>
-      <Image source={item.image} style={styles.image} />
-      <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.description}>{item.description}</Text>
-      {/* <Text style={styles.symbol}>Symbol: {item.symbol}</Text> */}
-    </View>
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => console.log(`Selected Apostle: ${item.name}`)}
+    >
+      <View style={styles.card}>
+        <Image source={item.image} style={styles.image} />
+        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.description}>{item.description}</Text>
+        {/* <Text style={styles.symbol}>Symbol: {item.symbol}</Text> */}
+      </View>
+    </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
-      <Image source={imageStore.ApostleHeaderImage} style={styles.IMG} />
+      <BackgroundCard source={imageStore.ApostleHeaderImage} />
       <Text style={styles.title}>The Twelve Apostles</Text>
       <FlatList
         data={ApostlesDB}

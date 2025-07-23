@@ -16,6 +16,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import DummyPrayer from "../constant/DummyPrayer";
+import { imageStore } from "../imageStore/allImages";
+import BackgroundCard from "../component/BackgroundCards";
+import BackButton from "../component/backButton";
 
 const PrayerScreen = () => {
   const categories = [...new Set(DummyPrayer.map((item) => item.category))];
@@ -103,84 +106,54 @@ const PrayerScreen = () => {
   return (
     <View style={[styles.container, isDark && { backgroundColor: "#000" }]}>
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-      <TouchableOpacity
-        style={styles.arrowBack}
-        onPress={() => navigation.goBack()}
-      >
-        <AntDesign name="arrowleft" size={30} color="#ff008c" />
-      </TouchableOpacity>
-      <Text style={[styles.title, isDark && { color: "#fff" }]}>
-        Prayer Point Generator
-      </Text>
-
-      <TextInput
-        placeholder="Search topic..."
-        placeholderTextColor={isDark ? "#888" : "#666"}
-        style={[
-          styles.searchBar,
-          isDark && { backgroundColor: "#f3f3f3", color: "#f3f3f3" },
-        ]}
-        value={searchQuery}
-        onChangeText={setSearchQuery}
-      />
-      <View style={styles.categSubHeading}>
-        <Text style={styles.categSubHeadingText}>Select Category</Text>
-      </View>
-
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.categoryList}
-      >
-        {categories.map(renderCategoryItem)}
-      </ScrollView>
-      <Text style={{ paddingLeft: 10, marginBottom: 10, fontWeight: 600 }}>
-        Search By Topics
-      </Text>
+      <BackgroundCard source={imageStore.PrayerPointHeaderImage}>
+        <BackButton />
+      </BackgroundCard>
       <FlatList
         data={topics}
         keyExtractor={(item) => item._id}
         renderItem={renderTopicItem}
-        contentContainerStyle={styles.topicList}
-        numColumns={2} // TWO ITEMS PER ROW
+        numColumns={2}
         columnWrapperStyle={{ justifyContent: "space-between" }}
         showsVerticalScrollIndicator={false}
-      />
+        contentContainerStyle={styles.topicList}
+        ListHeaderComponent={
+          <>
+            <Text style={[styles.title, isDark && { color: "#fff" }]}>
+              Get personalized prayer point for any life situation
+            </Text>
 
-      {/* MODAL for Selected Prayer */}
-      <Modal visible={!!selectedTopic} animationType="slide" transparent>
-        <View
-          style={[
-            styles.modalOverlay,
-            isDark && { backgroundColor: "#000000cc" },
-          ]}
-        >
-          <View
-            style={[styles.modalContent, isDark && { backgroundColor: "#222" }]}
-          >
-            <Text style={[styles.modalTitle, isDark && { color: "#fff" }]}>
-              Selected Prayer
-            </Text>
-            <Text style={[styles.modalTopic, isDark && { color: "#ccc" }]}>
-              {selectedTopic?.topic}
-            </Text>
-            <Text style={[styles.modalText, isDark && { color: "#ddd" }]}>
-              Lord, I bring this topic before You. I ask for wisdom, grace, and
-              power to walk in this area. Guide me and help me in all things
-              concerning "{selectedTopic?.topic}". Amen.
-            </Text>
-            <TouchableOpacity
+            <TextInput
+              placeholder="Search topic..."
+              placeholderTextColor={isDark ? "#888" : "#666"}
               style={[
-                styles.closeButton,
-                isDark && { backgroundColor: "#555" },
+                styles.searchBar,
+                isDark && { backgroundColor: "#f3f3f3", color: "#f3f3f3" },
               ]}
-              onPress={() => setSelectedTopic(null)}
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
+
+            <View style={styles.categSubHeading}>
+              <Text style={styles.categSubHeadingText}>Select Category</Text>
+            </View>
+
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.categoryList}
             >
-              <Text style={styles.goButtonText}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+              {categories.map(renderCategoryItem)}
+            </ScrollView>
+
+            <Text
+              style={{ paddingLeft: 10, marginBottom: 10, fontWeight: 600 }}
+            >
+              Search By Topics
+            </Text>
+          </>
+        }
+      />
     </View>
   );
 };
@@ -188,21 +161,15 @@ const PrayerScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 16,
-    paddingTop: 50,
-    backgroundColor: "#ffffff",
-    // backgroundColor: "#071738",
-    paddingBottom: 50,
   },
-  arrowBack: {
-    marginBottom: 16,
-  },
+
   title: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 12,
     color: "#000000",
     fontWeight: "bold",
+    marginTop: 10,
   },
   searchBar: {
     borderWidth: 1,
@@ -258,7 +225,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   topicList: {
-    paddingBottom: 16,
+    paddingBottom: 80,
+    paddingHorizontal: 10,
   },
 
   topicText: {
@@ -267,68 +235,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
   },
-  goButton: {
-    backgroundColor: "#ff008c",
-    paddingVertical: 6,
-    paddingHorizontal: 14,
-    borderRadius: 8,
-    marginLeft: 10,
-    width: 80,
-    alignItems: "center",
-  },
-  goButtonText: {
-    color: "#ccc",
-    fontWeight: "bold",
-  },
-  favoriteBtn: {
-    marginLeft: 8,
-    padding: 6,
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 20,
-    backgroundColor: "#ffffffcc",
-  },
-  modalContent: {
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    padding: 20,
-    elevation: 5,
-    height: "auto",
-    maxHeight: "90%",
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 6,
-  },
-  modalTopic: {
-    fontSize: 16,
-    marginBottom: 12,
-  },
-  modalText: {
-    fontSize: 15,
-    marginBottom: 20,
-  },
-  closeButton: {
-    alignSelf: "flex-end",
-    backgroundColor: "#4A90E2",
-    padding: 10,
-    borderRadius: 8,
-  },
-  row: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
-  box: {
-    width: "48%",
-    backgroundColor: "#1e2572",
-    marginBottom: 10,
-    padding: 10,
-    borderRadius: 10,
-  },
+
   topicItem: {
     flex: 1,
     margin: 5,

@@ -1,34 +1,28 @@
 import React from "react";
-import { ImageBackground, StyleSheet, View } from "react-native";
+import { Dimensions, ImageBackground, StyleSheet, View } from "react-native";
 
 const BackgroundCard = ({ source, children, style, imageStyle }) => {
   return (
     <ImageBackground
       source={source}
       resizeMode="cover"
-      style={[styles.card, style]}
-      imageStyle={[styles.image, imageStyle]}
+      style={[styles.image, style]}
+      imageStyle={imageStyle}
     >
-      <View style={styles.overlay} />
       {children}
     </ImageBackground>
   );
 };
 
+// const {width: SCREEN_WIDTH} = Dimensions.get("window");
+const { width, height } = Dimensions.get("window");
+
 const styles = StyleSheet.create({
-  card: {
-    borderRadius: 12,
-    //     overflow: "hidden",
-    position: "relative",
-    padding: 16,
-    justifyContent: "center",
-  },
   image: {
     width: "100%",
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.1)", // optional dark overlay for contrast
+    height: height * 0.3,
+    marginBottom: 20,
+    justifyContent: "center",
   },
 });
 
