@@ -105,7 +105,11 @@ const PrayerScreen = () => {
 
   return (
     <View style={[styles.container, isDark && { backgroundColor: "#000" }]}>
-      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
       <BackgroundCard source={imageStore.PrayerPointHeaderImage}>
         <BackButton />
       </BackgroundCard>

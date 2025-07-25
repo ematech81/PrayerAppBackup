@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
   },
 
   headerText: {
-    fontSize: 15,
+    fontSize: 17,
     fontWeight: "bold",
     color: "#ff008c",
     textAlign: "justify",

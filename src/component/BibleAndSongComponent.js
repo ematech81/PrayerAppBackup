@@ -80,7 +80,14 @@ const styles = StyleSheet.create({
   },
 
   /* let the BackgroundCard fill its wrapper */
-  cardImg: { flex: 1 },
+  cardImg: {
+    flex: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
+  },
   centeredContent: {
     flex: 1,
     justifyContent: "center",

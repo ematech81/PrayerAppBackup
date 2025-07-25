@@ -31,6 +31,7 @@
     "expo-splash-screen": "~0.30.10",
     "expo-sqlite": "~15.2.12",
     "expo-status-bar": "~2.2.3",
+    "he": "^1.2.0",
     "lucide-react-native": "^0.518.0",
     "moti": "^0.30.0",
     "nativewind": "^4.1.23",

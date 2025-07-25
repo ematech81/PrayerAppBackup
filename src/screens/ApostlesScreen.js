@@ -9,10 +9,12 @@ import {
   Dimensions,
   Platform,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import { ApostlesDB } from "../ChildrenBibleDatabase/12ApostlesDB";
 import BackgroundCard from "../component/BackgroundCards";
 import { imageStore } from "../imageStore/allImages";
+import BackButton from "../component/backButton";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -24,23 +26,31 @@ export default function ApostlesScreen() {
   const styles = getStyles(isDarkMode);
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.card}
-      onPress={() => console.log(`Selected Apostle: ${item.name}`)}
-    >
-      <View style={styles.card}>
-        <Image source={item.image} style={styles.image} />
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.description}>{item.description}</Text>
-        {/* <Text style={styles.symbol}>Symbol: {item.symbol}</Text> */}
-      </View>
-    </TouchableOpacity>
+    // <TouchableOpacity
+    //   key={item.id}
+    //   style={styles.card}
+    //   onPress={() => console.log(`Selected Apostle: ${item.name}`)}
+    // >
+    <View style={styles.card}>
+      <Image source={item.image} style={styles.image} />
+      <Text style={styles.name}>{item.name}</Text>
+      <Text style={styles.description}>{item.description}</Text>
+      {/* <Text style={styles.symbol}>Symbol: {item.symbol}</Text> */}
+    </View>
+    // </TouchableOpacity>
   );
 
   return (
     <View style={styles.container}>
-      <BackgroundCard source={imageStore.ApostleHeaderImage} />
-      <Text style={styles.title}>The Twelve Apostles</Text>
+      <StatusBar
+        backgroundColor="transparent"
+        translucent
+        barStyle="light-content"
+      />
+      <BackgroundCard source={imageStore.ApostleHeaderImage}>
+        <BackButton />
+      </BackgroundCard>
+
       <FlatList
         data={ApostlesDB}
         renderItem={renderItem}
@@ -61,8 +71,6 @@ const getStyles = (isDarkMode) => {
     container: {
       flex: 1,
       backgroundColor: bgColor,
-      paddingTop: 16,
-      paddingHorizontal: 2,
     },
     IMG: {
       width: "100%",
@@ -79,6 +87,8 @@ const getStyles = (isDarkMode) => {
     },
     list: {
       paddingBottom: 32,
+      paddingTop: 16,
+      paddingHorizontal: 2,
     },
     card: {
       backgroundColor: cardBg,

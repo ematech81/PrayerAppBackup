@@ -50,8 +50,8 @@ export default function ChildrenLandingScreen({ index }) {
       case "stories":
         navigation.navigate("KidBibleStoriesScreen");
         break;
-      case "prayer":
-        navigation.navigate("PrayerScreen");
+      case "facts":
+        navigation.navigate("BibleFactScreen");
         break;
       case "ai":
       case "apostles":

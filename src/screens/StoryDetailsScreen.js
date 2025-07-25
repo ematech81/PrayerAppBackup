@@ -1,4 +1,3 @@
-import { useRoute } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
   View,
@@ -10,10 +9,15 @@ import {
   Platform,
   ScrollView,
   Dimensions,
+  StatusBar,
 } from "react-native";
 import { StoryQuizDB } from "../ChildrenBibleDatabase/BibleStoryQuizDB";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
-const StoryDetailScreen = ({ navigation }) => {
+const StoryDetailScreen = () => {
+  const navigation = useNavigation();
+
   const colorScheme = useColorScheme();
   const isDark = colorScheme === "dark";
   const [showQuiz, setShowQuiz] = useState(false);
@@ -45,119 +49,144 @@ const StoryDetailScreen = ({ navigation }) => {
   };
 
   return (
-    <ScrollView
-      style={[
-        styles.container,
-        { backgroundColor: isDark ? "#121212" : "#F9F9F9" },
-      ]}
+    <View
+      style={{ flex: 1, backgroundColor: isDark ? "#121212" : "#fce2e2ff" }}
     >
-      <Text style={[styles.title, { color: isDark ? "#fff" : "#222" }]}>
-        {story.shortDescription}
-      </Text>
-
-      <Image source={story.image} style={styles.image} resizeMode="cover" />
-
-      <Text style={[styles.sectionTitle, { color: isDark ? "#fff" : "#333" }]}>
-        Full Story
-      </Text>
-      <Text style={[styles.text, { color: isDark ? "#ccc" : "#444" }]}>
-        {story.fullText}
-      </Text>
-
-      <Text style={[styles.sectionTitle, { color: isDark ? "#fff" : "#333" }]}>
-        📖 Key Verse
-      </Text>
-      <Text
-        style={[styles.verseText, { color: isDark ? "#b3e5fc" : "#0077b6" }]}
-      >
-        "{story.keyVerse}"
-      </Text>
-
-      <Text style={[styles.sectionTitle, { color: isDark ? "#fff" : "#333" }]}>
-        🧠 Lesson from the Story
-      </Text>
-      <Text style={[styles.text, { color: isDark ? "#ccc" : "#444" }]}>
-        {story.lesson}
-      </Text>
-
+      <StatusBar
+        backgroundColor="transparent"
+        translucent
+        barStyle="dark-content"
+      />
       <TouchableOpacity
-        style={styles.quizButton}
-        onPress={() => {
-          if (!showQuiz) {
-            const filteredQuizzes = StoryQuizDB.filter((quiz) =>
-              story.quizIds.includes(quiz.quizId)
-            );
-            setQuizList(filteredQuizzes);
-          }
-          setShowQuiz(!showQuiz);
-        }}
-      >
-        <Text style={styles.quizButtonText}>
-          {showQuiz ? "Hide Quiz" : "Take a Quiz"}
-        </Text>
-      </TouchableOpacity>
-      {showQuiz && (
-        <View style={{ marginTop: 20 }}>
-          {quizList.map((quiz) => (
-            <View key={quiz.quizId} style={{ marginBottom: 25 }}>
-              <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                {quiz.question}
-              </Text>
-              {quiz.options.map((option, index) => {
-                const isSelected = selectedAnswers[quiz.quizId] === option;
-                const isCorrect = results[quiz.quizId];
-                return (
-                  <TouchableOpacity
-                    key={index}
-                    onPress={() => handleAnswer(quiz.quizId, option)}
-                    disabled={!!selectedAnswers[quiz.quizId]}
-                    style={{
-                      padding: 10,
-                      marginVertical: 5,
-                      backgroundColor: isSelected
-                        ? isCorrect
-                          ? "#d4edda" // green
-                          : "#f8d7da" // red
-                        : "#f1f1f1",
-                      borderRadius: 8,
-                    }}
-                  >
-                    <Text>{option}</Text>
-                  </TouchableOpacity>
-                );
-              })}
-              {selectedAnswers[quiz.quizId] && (
-                <Text style={{ marginTop: 5 }}>
-                  {results[quiz.quizId]
-                    ? "🎉 Correct!"
-                    : "❌ Oops, try again next time!"}
-                </Text>
-              )}
-            </View>
-          ))}
-
-          <TouchableOpacity
-            onPress={() => setShowQuiz(false)}
-            style={{
-              backgroundColor: "#ccc",
-              padding: 12,
-              borderRadius: 8,
-              marginTop: 20,
-              alignItems: "center",
-            }}
-          >
-            <Text>Close Quiz</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-
-      <TouchableOpacity
+        style={{ alignSelf: "flex-start", marginLeft: 10, marginTop: 40 }}
         onPress={() => navigation.goBack()}
-        style={styles.backButton}
       >
-        <Text style={styles.backButtonText}>⬅️ Go Back</Text>
+        <AntDesign name="arrowleft" size={30} color="#ff008c" />
       </TouchableOpacity>
-    </ScrollView>
+
+      <ScrollView
+        style={[
+          styles.container,
+          { backgroundColor: isDark ? "#121212" : "#fce2e2ff" },
+        ]}
+      >
+        <Text style={[styles.title, { color: isDark ? "#fff" : "#222" }]}>
+          {story.shortDescription}
+        </Text>
+
+        <Image source={story.image} style={styles.image} resizeMode="cover" />
+
+        <Text
+          style={[styles.sectionTitle, { color: isDark ? "#fff" : "#333" }]}
+        >
+          Full Story
+        </Text>
+        <Text style={[styles.text, { color: isDark ? "#ccc" : "#f880a9" }]}>
+          {story.fullText}
+        </Text>
+
+        <Text
+          style={[styles.sectionTitle, { color: isDark ? "#fff" : "#333" }]}
+        >
+          📖 Key Verse
+        </Text>
+        <Text
+          style={[styles.verseText, { color: isDark ? "#b3e5fc" : "#0077b6" }]}
+        >
+          "{story.keyVerse}"
+        </Text>
+
+        <Text
+          style={[
+            styles.sectionTitle,
+            { color: isDark ? "#fff" : "#21069bff" },
+          ]}
+        >
+          🧠 Lesson from the Story
+        </Text>
+        <Text style={[styles.text, { color: isDark ? "#ccc" : "#444" }]}>
+          {story.lesson}
+        </Text>
+
+        <TouchableOpacity
+          style={styles.quizButton}
+          onPress={() => {
+            if (!showQuiz) {
+              const filteredQuizzes = StoryQuizDB.filter((quiz) =>
+                story.quizIds.includes(quiz.quizId)
+              );
+              setQuizList(filteredQuizzes);
+            }
+            setShowQuiz(!showQuiz);
+          }}
+        >
+          <Text style={styles.quizButtonText}>
+            {showQuiz ? "Hide Quiz" : "Take a Quiz"}
+          </Text>
+        </TouchableOpacity>
+        {showQuiz && (
+          <View style={{ marginTop: 20 }}>
+            {quizList.map((quiz) => (
+              <View key={quiz.quizId} style={{ marginBottom: 25 }}>
+                <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+                  {quiz.question}
+                </Text>
+                {quiz.options.map((option, index) => {
+                  const isSelected = selectedAnswers[quiz.quizId] === option;
+                  const isCorrect = results[quiz.quizId];
+                  return (
+                    <TouchableOpacity
+                      key={index}
+                      onPress={() => handleAnswer(quiz.quizId, option)}
+                      disabled={!!selectedAnswers[quiz.quizId]}
+                      style={{
+                        padding: 10,
+                        marginVertical: 5,
+                        backgroundColor: isSelected
+                          ? isCorrect
+                            ? "#d4edda" // green
+                            : "#f8d7da" // red
+                          : "#f1f1f1",
+                        borderRadius: 8,
+                      }}
+                    >
+                      <Text>{option}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
+                {selectedAnswers[quiz.quizId] && (
+                  <Text style={{ marginTop: 5 }}>
+                    {results[quiz.quizId]
+                      ? "🎉 Correct!"
+                      : "❌ Oops, try again next time!"}
+                  </Text>
+                )}
+              </View>
+            ))}
+
+            <TouchableOpacity
+              onPress={() => setShowQuiz(false)}
+              style={{
+                backgroundColor: "#ccc",
+                padding: 12,
+                borderRadius: 8,
+                marginTop: 20,
+                alignItems: "center",
+              }}
+            >
+              <Text>Close Quiz</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}
+        >
+          <Text style={styles.backButtonText}>⬅️ Go Back</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -170,24 +199,28 @@ const styles = StyleSheet.create({
   title: {
     fontSize: Platform.OS === "ios" ? 26 : 24,
     fontWeight: "bold",
-    marginBottom: 10,
-    textAlign: "center",
+    marginVertical: 30,
+    // textAlign: "justify",
   },
   image: {
     width: "100%",
     height: Platform.OS === "ios" ? 250 : 200,
     borderRadius: 12,
     marginBottom: 16,
+    height: screenWidth * 0.8,
   },
   sectionTitle: {
     fontSize: Platform.OS === "ios" ? 22 : 20,
-    fontWeight: "600",
+    fontWeight: "bold",
     marginTop: 20,
     marginBottom: 6,
   },
   text: {
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize: 24,
+    lineHeight: 33,
+    fontStyle: "justify",
+    color: "#f880a9",
+    fontWeight: "bold",
   },
   verseText: {
     fontSize: 18,

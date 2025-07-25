@@ -7,6 +7,7 @@ import {
   Dimensions,
   TouchableOpacity,
   FlatList,
+  StatusBar,
 } from "react-native";
 import { MotiView } from "moti";
 import CommentSection from "../component/ComentSection";
@@ -15,6 +16,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { dailyDevotionDatabase } from "../Database/dailyDevotionDatabase";
 import { getTodayDayIndex } from "../utils/dateHelper";
 import { getFormattedToday } from "../utils/TodayDate";
+import BackgroundCard from "../component/BackgroundCards";
 
 // 👇 Helper to format **bold** text
 const formatStyledText = (text) => {
@@ -86,6 +88,14 @@ const DevotionScreen = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "#ffffff" }}>
+      <BackgroundCard source={devotionImg} />
+
+      <StatusBar
+        backgroundColor="transparent"
+        translucent
+        barStyle="light-content"
+      />
+
       <FlatList
         data={devotion.sections}
         keyExtractor={(item, index) => `section-${index}`}
@@ -99,12 +109,6 @@ const DevotionScreen = () => {
         )}
         ListHeaderComponent={
           <>
-            <Image
-              source={devotionImg}
-              style={[styles.headerImage, { width }]}
-              resizeMode="cover"
-            />
-
             <TouchableOpacity
               style={styles.button}
               onPress={() => navigation.goBack()}
@@ -202,7 +206,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     // color: "#ffffff",
-    fontSize: 11,
+    fontSize: 13,
     // fontWeight: "600",
     textAlign: "center",
     fontStyle: "italic",

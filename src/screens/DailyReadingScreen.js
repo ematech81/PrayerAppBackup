@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Dimensions,
   ImageBackground,
+  StatusBar,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { devotion } from "../constant/DummyDevtion";
@@ -16,6 +17,7 @@ import { getTodayDayIndex } from "../utils/dateHelper";
 import { dailyDevotionDatabase } from "../Database/dailyDevotionDatabase"; // Uncomment if using local data
 import { fetchEnglishBooks } from "../utils/apiService";
 import { getFormattedToday } from "../utils/TodayDate";
+import BackgroundCard from "../component/BackgroundCards";
 // import { formatStyledText } from "./DevotionScreen";
 
 // 👇 Helper to format **bold** text
@@ -100,85 +102,87 @@ const DailyReadingScreen = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {/* Header Image */}
-      <Image
-        source={bibleReading}
-        resizeMode="cover"
-        style={[styles.headerImage, { width: width }]}
+    <View style={{ flex: 1 }}>
+      <BackgroundCard source={bibleReading} style={[styles.headerImage]} />
+      <StatusBar
+        backgroundColor="transparent"
+        translucent
+        barStyle="dark-content"
       />
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.goBack()}
-      >
-        <Text style={styles.buttonTextBack}>Go Back Home</Text>
-      </TouchableOpacity>
-
-      {/* Title */}
-      <Text style={styles.title}>Daily Bible Reading</Text>
-      <Text style={styles.date}>Today, {getFormattedToday()}</Text>
-
-      {/* Subheading */}
-      <Text style={styles.subheading}>Spend time in God’s Word today</Text>
-
-      {/* Reading List */}
-      <View style={styles.readingContainer}>
-        <Text style={styles.readingHeader}>📖 Today's Reading:</Text>
-
-        {todayDevotion ? (
-          todayDevotion.readings.map((reading, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() =>
-                handleReadingTap(
-                  reading.book,
-                  reading.chapter,
-                  reading.startVerse
-                )
-              }
-            >
-              <Text style={styles.readingItem}>
-                {reading.book} {reading.chapter}
-              </Text>
-            </TouchableOpacity>
-          ))
-        ) : (
-          <Text style={styles.fallbackText}>
-            Today's devotion is not available yet. Please check back later.
-          </Text>
-        )}
-      </View>
-
-      {/* Devotion Button */}
-
-      <TouchableOpacity
-        style={styles.buttonContainer}
-        onPress={() =>
-          navigation.navigate("DevotionScreen", { day: todayIndex })
-        }
-      >
-        <ImageBackground
-          source={require("../assets/preImgDevotion.png")}
-          style={styles.image}
-          imageStyle={{ borderRadius: 12 }}
-          resizeMode="cover"
+      <ScrollView contentContainerStyle={styles.container}>
+        {/* Header Image */}
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.goBack()}
         >
-          <View style={styles.overlay}>
-            <Text style={styles.ButtonText}>Check Today’s Devotion</Text>
-            <Text style={styles.title}>{todayDevotion?.title}</Text>
+          <Text style={styles.buttonTextBack}>Go Back Home</Text>
+        </TouchableOpacity>
 
-            <View style={{ padding: 10 }}>
-              <Text style={styles.sectionIntro}>
-                {formatStyledText(
-                  todayDevotion?.introduction.slice(0, 100) + "..."
-                )}
-              </Text>
+        {/* Title */}
+        <Text style={styles.title}>Daily Bible Reading</Text>
+        <Text style={styles.date}>Today, {getFormattedToday()}</Text>
+
+        {/* Subheading */}
+        <Text style={styles.subheading}>Spend time in God’s Word today</Text>
+
+        {/* Reading List */}
+        <View style={styles.readingContainer}>
+          <Text style={styles.readingHeader}>📖 Today's Reading:</Text>
+
+          {todayDevotion ? (
+            todayDevotion.readings.map((reading, index) => (
+              <TouchableOpacity
+                key={index}
+                onPress={() =>
+                  handleReadingTap(
+                    reading.book,
+                    reading.chapter,
+                    reading.startVerse
+                  )
+                }
+              >
+                <Text style={styles.readingItem}>
+                  {reading.book} {reading.chapter}
+                </Text>
+              </TouchableOpacity>
+            ))
+          ) : (
+            <Text style={styles.fallbackText}>
+              Today's devotion is not available yet. Please check back later.
+            </Text>
+          )}
+        </View>
+
+        {/* Devotion Button */}
+
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={() =>
+            navigation.navigate("DevotionScreen", { day: todayIndex })
+          }
+        >
+          <ImageBackground
+            source={require("../assets/preImgDevotion.png")}
+            style={styles.image}
+            imageStyle={{ borderRadius: 12 }}
+            resizeMode="cover"
+          >
+            <View style={styles.overlay}>
+              <Text style={styles.ButtonText}>Check Today’s Devotion</Text>
+              <Text style={styles.title}>{todayDevotion?.title}</Text>
+
+              <View style={{ padding: 10 }}>
+                <Text style={styles.sectionIntro}>
+                  {formatStyledText(
+                    todayDevotion?.introduction.slice(0, 100) + "..."
+                  )}
+                </Text>
+              </View>
             </View>
-          </View>
-        </ImageBackground>
-      </TouchableOpacity>
-    </ScrollView>
+          </ImageBackground>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -190,10 +194,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#9f9171ff",
     alignItems: "center",
   },
-  headerImage: {
-    height: 200,
-    marginBottom: 20,
-  },
+  headerImage: {},
 
   date: {
     fontSize: 14,
@@ -250,7 +251,7 @@ const styles = StyleSheet.create({
   },
   buttonTextBack: {
     color: "#333",
-    fontSize: 11,
+    fontSize: 13,
     // fontWeight: "600",
     textAlign: "center",
     fontStyle: "italic",

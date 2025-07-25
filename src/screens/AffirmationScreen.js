@@ -20,7 +20,7 @@ import { imageStore } from "../imageStore/allImages";
 import BackgroundCard from "../component/BackgroundCards";
 import BackButton from "../component/backButton";
 
-const ffirmationScreen = () => {
+const AffirmationScreen = () => {
   const categories = [...new Set(DummyPrayer.map((item) => item.category))];
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -105,7 +105,11 @@ const ffirmationScreen = () => {
 
   return (
     <View style={[styles.container, isDark && { backgroundColor: "#000" }]}>
-      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
       <BackgroundCard source={imageStore.AffirmationHeaderImage}>
         <BackButton />
       </BackgroundCard>
@@ -249,4 +253,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ffirmationScreen;
+export default AffirmationScreen;

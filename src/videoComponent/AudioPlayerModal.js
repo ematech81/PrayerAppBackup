@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { BibleContext } from "../contex/BibleContext";
 import Slider from "@react-native-community/slider";
+import he from "he";
 
 const AudioPlayerModal = ({ visible, onClose, metaList }) => {
   const {
@@ -89,7 +90,7 @@ const AudioPlayerModal = ({ visible, onClose, metaList }) => {
 
         {/* title */}
         <Text style={styles.title} numberOfLines={2}>
-          {title}
+          {he.decode} {title}
         </Text>
         <Text style={styles.channel}>{channelTitle}</Text>
 
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   channel: { color: "#ccc", fontSize: 14, marginTop: 6 },
-  slider: { width: width - 40, marginTop: 30 },
+  slider: { width: width - 40, marginTop: 30, backgroundColor: "#333" },
   timeRow: {
     width: width - 40,
     flexDirection: "row",
@@ -177,7 +178,6 @@ const styles = StyleSheet.create({
   favText: { color: "#fff", marginLeft: 8 },
 });
 
-// const styles = StyleSheet.create({
 //   overlay: {
 //     flex: 1,
 //     backgroundColor: "rgba(0,0,0,0.7)",

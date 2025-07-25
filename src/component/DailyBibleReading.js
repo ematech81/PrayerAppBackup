@@ -28,7 +28,7 @@ const DailyBibleReading = () => {
               style={{
                 fontSize: 22,
                 fontWeight: "bold",
-                color: "##14314f",
+                color: "#fff",
                 marginBottom: 6,
               }}
             >

@@ -82,7 +82,7 @@ const CommentSection = () => {
           <View style={styles.commentCard}>
             <View style={styles.commentUserWrapper}>
               <View style={styles.iconContainer}>
-                <FontAwesome5 name="user" size={24} color="black" />
+                <FontAwesome5 name="user" size={26} color="#fff" />
               </View>
               <Text style={styles.username}>{item.username}</Text>
             </View>
@@ -101,10 +101,10 @@ const CommentSection = () => {
             {item.replies.map((reply) => (
               <View key={reply.id} style={styles.replyCard}>
                 <View style={styles.commentUserWrapper}>
-                  <View>
-                    <FontAwesome5 name="user" size={24} color="black" />
-                    <Text style={styles.username}>{reply.username}</Text>
+                  <View style={styles.iconContainer}>
+                    <FontAwesome5 name="user" size={26} color="#fff" />
                   </View>
+                  <Text style={styles.username}>{reply.username}</Text>
                 </View>
                 <Text style={styles.commentText}>{reply.text}</Text>
               </View>
@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
   username: {
     fontWeight: "600",
     marginBottom: 4,
+    fontSize: 18,
   },
   commentText: {
     fontSize: 15,
@@ -178,10 +179,11 @@ const styles = StyleSheet.create({
   },
   replyCard: {
     marginTop: 10,
-    marginLeft: 16,
-    backgroundColor: "#eef2ff",
+    marginLeft: 20,
+    // backgroundColor: "#eef2ff",
     padding: 8,
-    borderRadius: 8,
+    borderLeftWidth: 1,
+    borderStyle: "dotted",
   },
   commentUserWrapper: {
     flexDirection: "row",
@@ -190,7 +192,8 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   iconContainer: {
-    borderWidth: 2,
+    borderWidth: 1,
+    borderColor: "#ccc",
     padding: 2,
     backgroundColor: "#ccc",
   },

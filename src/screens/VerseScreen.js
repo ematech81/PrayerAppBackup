@@ -617,9 +617,6 @@ const styles = StyleSheet.create({
   verseContainer: {
     marginBottom: 10,
     marginTop: 10,
-    // paddingBottom: 10,
-    // borderBottomWidth: 1,
-    // borderBottomColor: "#eee",
     paddingHorizontal: 2,
     minHeight: 100,
     flexWrap: "wrap",
@@ -631,10 +628,10 @@ const styles = StyleSheet.create({
     color: "#f3f307ff",
     // color: "#4263eb",
     marginRight: 8,
-    lineHeight: 22,
+    lineHeight: 18,
   },
   verseText: {
-    fontSize: 18,
+    fontSize: 22,
     lineHeight: 25,
     flex: 1,
     color: "#fff",
@@ -720,7 +717,8 @@ const styles = StyleSheet.create({
     // borderLeftColor: "#4263eb",
   },
   selectedVerseText: {
-    backgroundColor: "#ffcccc",
+    backgroundColor: "#ccddca",
+    fontWeight: "bold",
   },
   closeButton: {
     marginTop: 20,

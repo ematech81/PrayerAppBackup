@@ -9,6 +9,7 @@ import {
   StyleSheet,
   StatusBar,
 } from "react-native";
+import he from "he";
 
 import { fetchDefaultSongs, searchSongs } from "../utils/apiService";
 import { BibleContext } from "../contex/BibleContext";

@@ -22,7 +22,7 @@ const ITEMS = [
   {
     id: "prayer",
     label: "Prayer Point",
-    icon: "hands-pray",
+    icon: "praying-hands",
     iconPack: "FontAwesome5",
   },
   {
@@ -153,6 +153,7 @@ const styles = StyleSheet.create({
     // backgroundColor: "#4B6CB7",
     borderRadius: 12,
     // marginVertical: 10,
+    backgroundColor: "rgba(255,255,255,0.2)",
   },
   label: {
     marginTop: 4,

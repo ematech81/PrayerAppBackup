@@ -4,11 +4,12 @@ import { useNavigation } from "@react-navigation/native";
 import { useBible } from "../contex/BibleContext";
 
 const palette = [
-  { backgroundColor: "#b3e5fc" },
-  { backgroundColor: "#c8e6c9" },
-  { backgroundColor: "#fff9c4" },
-  { backgroundColor: "#ffe0b2" },
+  { backgroundColor: "#2e02f6ff" },
+  { backgroundColor: "#08e00fff" },
+  { backgroundColor: "#09a0e0ff" },
+  { backgroundColor: "#d50694ff" },
 ];
+// palette[i % palette.length];
 
 const PrayerPoint = () => {
   const navigation = useNavigation();
@@ -52,7 +53,7 @@ const PrayerPoint = () => {
               key={t._id}
               onPress={() => openPrayerScreen(t._id, t.topic)}
             >
-              <View style={[styles.box, palette[i % palette.length]]}>
+              <View style={[styles.box]}>
                 <Text style={styles.text}>{t.topic}</Text>
               </View>
             </Pressable>
@@ -64,7 +65,12 @@ const PrayerPoint = () => {
 };
 
 const styles = StyleSheet.create({
-  prayerContainer: { marginBottom: 24, padding: 16 },
+  prayerContainer: {
+    marginBottom: 24,
+    borderTopWidth: 2,
+    borderStyle: "dotted",
+    borderColor: "#ccc",
+  },
   containerWrapper: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -78,7 +84,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     marginRight: 6,
   },
-  prayerPointHeading: { fontSize: 18, fontWeight: "700", color: "#fff" },
+  prayerPointHeading: { fontSize: 22, fontWeight: "700", color: "#fff" },
   seeAll: { color: "#ccc", fontSize: 14, paddingRight: 10 },
   textInstruction: { marginVertical: 8, color: "#fff" },
   scrollContainer: { paddingVertical: 4 },
@@ -92,8 +98,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     minHeight: 150,
     flexDirection: "row",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
   },
-  text: { fontSize: 14, fontWeight: "600" },
+  text: { fontSize: 14, fontWeight: "bold", color: "#ccc" },
 });
 
 export default PrayerPoint;

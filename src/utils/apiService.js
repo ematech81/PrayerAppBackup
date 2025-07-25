@@ -506,7 +506,8 @@ const getCachedBooks = async () => {
   }
 };
 
-// api/youtube.js
+// Youtube API servicec
+
 const YOUTUBE_API_KEY = "AIzaSyBnFFG6FByM4wgmUx7ZscbezehgvbDFYPU";
 const BASE_URL = "https://www.googleapis.com/youtube/v3/search";
 
@@ -531,38 +532,106 @@ const fetchYouTubeData = async (params) => {
     return data.items || [];
   } catch (error) {
     console.error("YouTube API fetch failed:", error);
-    throw error; // Re-throw to let calling code handle it
+    throw error;
   }
 };
+
+// SONG FETCHING LOGIC //
 
 // Fetch default gospel songs
 export const fetchDefaultSongs = async () => {
   return fetchYouTubeData({
     q: "gospel songs",
-    order: "viewCount", // Get popular videos first
+    order: "viewCount",
   });
 };
 
 // Search songs by query
 export const searchSongs = async (query) => {
   if (!query || query.trim() === "") {
-    return fetchDefaultSongs(); // Fallback to default if empty query
+    return fetchDefaultSongs();
   }
   return fetchYouTubeData({
-    q: `${query} gospel`, // Always include "gospel" in searches
+    q: `${query} gospel`,
   });
 };
 
-// Optional: Fetch more details for a specific video
-export const getVideoDetails = async (videoId) => {
-  try {
-    const response = await fetch(
-      `https://www.googleapis.com/youtube/v3/videos?key=${YOUTUBE_API_KEY}&part=snippet,contentDetails&id=${videoId}`
-    );
-    const data = await response.json();
-    return data.items[0] || null;
-  } catch (error) {
-    console.error("Failed to fetch video details:", error);
-    return null;
-  }
+// SERMON FETCHING LOGIC //
+
+// Fetch default sermons
+export const fetchDefaultSermons = async () => {
+  return fetchYouTubeData({
+    q: "christian sermon",
+    order: "viewCount",
+  });
 };
+
+// Search sermons by query
+export const searchSermons = async (query) => {
+  if (!query || query.trim() === "") {
+    return fetchDefaultSermons();
+  }
+  return fetchYouTubeData({
+    q: `${query} sermon`,
+  });
+};
+
+// const YOUTUBE_API_KEY = "AIzaSyBnFFG6FByM4wgmUx7ZscbezehgvbDFYPU";
+// const BASE_URL = "https://www.googleapis.com/youtube/v3/search";
+
+// // Common fetch function with error handling
+// const fetchYouTubeData = async (params) => {
+//   try {
+//     const queryString = new URLSearchParams({
+//       key: YOUTUBE_API_KEY,
+//       part: "snippet",
+//       type: "video",
+//       maxResults: 50,
+//       ...params,
+//     }).toString();
+
+//     const response = await fetch(`${BASE_URL}?${queryString}`);
+
+//     if (!response.ok) {
+//       throw new Error(`YouTube API error: ${response.status}`);
+//     }
+
+//     const data = await response.json();
+//     return data.items || [];
+//   } catch (error) {
+//     console.error("YouTube API fetch failed:", error);
+//     throw error; // Re-throw to let calling code handle it
+//   }
+// };
+
+// // Fetch default gospel songs
+// export const fetchDefaultSongs = async () => {
+//   return fetchYouTubeData({
+//     q: "gospel songs",
+//     order: "viewCount", // Get popular videos first
+//   });
+// };
+
+// // Search songs by query
+// export const searchSongs = async (query) => {
+//   if (!query || query.trim() === "") {
+//     return fetchDefaultSongs(); // Fallback to default if empty query
+//   }
+//   return fetchYouTubeData({
+//     q: `${query} gospel`, // Always include "gospel" in searches
+//   });
+// };
+
+// // Optional: Fetch more details for a specific video
+// export const getVideoDetails = async (videoId) => {
+//   try {
+//     const response = await fetch(
+//       `https://www.googleapis.com/youtube/v3/videos?key=${YOUTUBE_API_KEY}&part=snippet,contentDetails&id=${videoId}`
+//     );
+//     const data = await response.json();
+//     return data.items[0] || null;
+//   } catch (error) {
+//     console.error("Failed to fetch video details:", error);
+//     return null;
+//   }
+// };

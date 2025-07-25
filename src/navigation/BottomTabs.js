@@ -69,7 +69,7 @@ export default function BottomTabs() {
           backgroundColor: "#1e2572", // Change to your desired background color
           // borderTopLeftRadius: 20,
           // borderTopRightRadius: 20,
-          height: 60,
+          height: 55,
           position: "absolute",
           overflow: "hidden", // Ensures rounded corners show properly
         },

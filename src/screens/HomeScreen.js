@@ -60,9 +60,9 @@ const HomeScreen = () => {
             <DailyBibleReading />
           </View>
 
-          <View style={styles.section}>
+          {/* <View style={styles.section}>
             <Affirmation />
-          </View>
+          </View> */}
         </ScrollView>
       </View>
     </ImageBackground>
@@ -86,5 +86,6 @@ const styles = StyleSheet.create({
   section: {
     width: "100%",
     marginBottom: 10,
+    marginTop: 10,
   },
 });

@@ -17,6 +17,7 @@ import YoutubePlayer from "react-native-youtube-iframe";
 import { MaterialIcons } from "@expo/vector-icons";
 import { convertToMp3 } from "../utils/mp3Converter";
 import { BibleContext } from "../contex/BibleContext";
+import he from "he";
 
 const mp3Cache = new Map();
 
@@ -200,7 +201,7 @@ export default function SongItem({ video, songsList = [] }) {
       {/* info */}
       <TouchableOpacity style={styles.info} onPress={onPlayPausePress}>
         <Text style={styles.title} numberOfLines={2}>
-          {title}
+          {he.decode(title)}
         </Text>
         <Text style={styles.channel}>{channelTitle}</Text>
       </TouchableOpacity>
