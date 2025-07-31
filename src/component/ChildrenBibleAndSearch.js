@@ -34,7 +34,7 @@ const ChildrenBibleAndAearch = () => {
       {/* Search card 30 % */}
       <TouchableOpacity
         style={[styles.songCard]}
-        onPress={() => console.log("Song pressed")}
+        onPress={() => navigation.navigate("BibleSearchScreen")}
       >
         <View style={styles.centeredContent}>
           <Ionicons name="search" size={24} color="#fff" strokeWidth="10" />

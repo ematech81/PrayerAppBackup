@@ -33,6 +33,7 @@ import UploadAndRecordScreen from "./src/screens/UploadAndRecordScreen";
 import SermonScreen from "./src/screens/SermonScreen";
 import StoryDetailsScreen from "./src/screens/StoryDetailsScreen";
 import BibleFactScreen from "./src/screens/BibleFactScreen";
+import BibleSearchScreen from "./src/screens/BibleSearchScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -134,6 +135,10 @@ export default function App() {
               component={StoryDetailsScreen}
             />
             <Stack.Screen name="BibleFactScreen" component={BibleFactScreen} />
+            <Stack.Screen
+              name="BibleSearchScreen"
+              component={BibleSearchScreen}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>

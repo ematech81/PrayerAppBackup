@@ -10,6 +10,11 @@ import React, {
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 import DummyPrayer from "../constant/DummyPrayer";
+import {
+  getLikeCountApi,
+  recordShareApi,
+  toggleLikeApi,
+} from "../utils/BackendApiService";
 
 export const BibleContext = createContext();
 
@@ -20,6 +25,16 @@ export const useBible = () => {
   }
   return ctx;
 };
+
+// simple uuid
+const uuid = () =>
+  "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+
+const USER_ID_KEY = "@anon_user_id_v1";
 
 export const BibleProvider = ({ children }) => {
   // Player state
@@ -40,6 +55,23 @@ export const BibleProvider = ({ children }) => {
   const [playQueue, setPlayQueue] = useState([]); // array of video objects
   const [queueIndex, setQueueIndex] = useState(0);
 
+  // backend logic
+  const [userId, setUserId] = useState(null);
+  const [metrics, setMetrics] = useState(() => ({})); // { [verseId]: { liked?: boolean, likes?: number, shares?: number } }
+  const inFlight = useRef(new Set()); // prevent double taps
+
+  // Ensure we have a stable anonymous userId
+  useEffect(() => {
+    (async () => {
+      let id = await AsyncStorage.getItem(USER_ID_KEY);
+      if (!id) {
+        id = uuid();
+        await AsyncStorage.setItem(USER_ID_KEY, id);
+      }
+      console.log("[CTX] userId ready:", id);
+      setUserId(id);
+    })();
+  }, []);
   /* -- restore favourites on launch -- */
   useEffect(() => {
     (async () => {
@@ -47,6 +79,83 @@ export const BibleProvider = ({ children }) => {
       if (saved) setFavourites(JSON.parse(saved));
     })();
   }, []);
+
+  // PUBLIC: Get metrics for a verse
+  const getVerseMetrics = (verseId) =>
+    metrics[verseId] || { liked: false, likes: 0, shares: 0 };
+
+  // PUBLIC: Prefetch like count (e.g., on screen mount)
+  const prefetchLikeCount = async (verseId) => {
+    console.log("[CTX] prefetchLikeCount()", { verseId });
+    try {
+      const data = await getLikeCountApi(verseId);
+      console.log("[CTX] prefetchLikeCount response:", data);
+      setMetrics((prev) => ({
+        ...prev,
+        [verseId]: { ...prev[verseId], likes: data.likes ?? 0 },
+      }));
+    } catch (e) {
+      console.log("[CTX] prefetchLikeCount error:", e?.message);
+    }
+  };
+  // PUBLIC: Toggle like with optimistic UI
+  const toggleLike = async (verseId) => {
+    console.log("[CTX] toggleLike()", { verseId, userId });
+    if (!userId) {
+      console.log("[CTX] toggleLike blocked: userId not ready yet");
+      return;
+    }
+    if (inFlight.current.has(`like:${verseId}`)) {
+      console.log("[CTX] toggleLike blocked: in flight");
+      return;
+    }
+    inFlight.current.add(`like:${verseId}`);
+
+    const prev = metrics[verseId] || { liked: false, likes: 0, shares: 0 };
+    const optimistic = {
+      ...prev,
+      liked: !prev.liked,
+      likes: Math.max(0, (prev.likes ?? 0) + (prev.liked ? -1 : 1)),
+    };
+    console.log("[CTX] toggleLike optimistic:", optimistic);
+    setMetrics((p) => ({ ...p, [verseId]: optimistic }));
+
+    try {
+      const data = await toggleLikeApi(verseId, userId);
+      console.log("[CTX] toggleLike response:", data);
+      setMetrics((p) => ({
+        ...p,
+        [verseId]: {
+          ...p[verseId],
+          liked: data.liked,
+          likes: data.likes ?? optimistic.likes,
+        },
+      }));
+    } catch (e) {
+      console.log("[CTX] toggleLike error:", e?.message);
+      setMetrics((p) => ({ ...p, [verseId]: prev })); // rollback
+    } finally {
+      inFlight.current.delete(`like:${verseId}`);
+    }
+  };
+
+  // PUBLIC: Share via backend counter (call this AFTER device share succeeds)
+  const recordShare = async (verseId, channel = "system") => {
+    console.log("[CTX] recordShare()", { verseId, channel, userId });
+    try {
+      const data = await recordShareApi(verseId, { channel, userId }); // userId may be undefined; backend can handle
+      console.log("[CTX] recordShare response:", data);
+      setMetrics((p) => ({
+        ...p,
+        [verseId]: {
+          ...(p[verseId] || {}),
+          shares: data.shares ?? (p[verseId]?.shares ?? 0) + 1,
+        },
+      }));
+    } catch (e) {
+      console.log("[CTX] recordShare error:", e?.message);
+    }
+  };
 
   /* -- persist favourites -- */
   const toggleFavourite = (videoId) => {
@@ -211,6 +320,11 @@ export const BibleProvider = ({ children }) => {
         getDailyTopics,
         getTopicById,
         getPrayersByTopicId,
+        userId,
+        getVerseMetrics,
+        prefetchLikeCount,
+        toggleLike,
+        recordShare,
       }}
     >
       {children}
